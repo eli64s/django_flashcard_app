@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block head %}
+<title>Create a Card Set</title>
+{% endblock %}
+
+{% block body%}
+<div class="container">
+    <div class="col-xl-6">
+        <h3>Custom Card Set</h3>
+        <h6>Create your custom study deck below!</h6>
+
+        <form method="POST" nonvalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {% render_field field class="form-control" %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+
+             {% if edit_mode %}
+            <a class="btn btn-primary btn-sm" href="{% url 'flashcards:delete_card_set' card_set_object.id %}" 
+            role="button">Delete</a>
+            {% endif %}
+        </form>
+        
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block head %}
+<title>GRE Cards</title>
+
+<head>
+<style>
+.flip-card {
+	background-color: transparent;
+	width: 500px;
+	height: 300px;
+	/*border: 1px solid #f1f1f1;*/
+	perspective: 1000px; /* Remove this if you don't want the 3D effect */
+}
+
+/* This container is needed to position the front and back side */
+.flip-card-inner {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	transition: transform 0.8s;
+	transform-style: preserve-3d;
+}
+
+/* Do an horizontal flip when you move the mouse over the flip box container */
+.flip-card:hover .flip-card-inner {
+	transform: rotateY(180deg);
+}
+
+/* Position the front and back side */
+.flip-card-front, .flip-card-back {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	backface-visibility: hidden;
+}
+
+/* Style the front side (fallback if image is missing) */
+.flip-card-front {
+	background-color: #4d4dff;
+	color: white;
+}
+
+/* Style the back side */
+.flip-card-back {
+	background-color: dodgerblue;
+	color: white;
+	transform: rotateY(180deg);
+}
+
+</style>
+</head>
+{% endblock %}
+
+{% block body%}
+<div class="container">
+<div class="row">
+
+	<div class="col-md-4 mr-5">
+	{% if card_object %}
+	<div class="flip-card">
+	<div class="flip-card-inner">
+
+		<!--Front of Card-->
+		<div class="flip-card-front">
+		<div class="card-header">{{ card_set_object }}
+		</div>
+		<p>
+		<h4 class="card-title" style="font-size: 45px">{{ card_object.word }}</h4>
+		</p>
+		</div>
+
+		<!--Back of Card-->
+		<div class="flip-card-back">
+		<p>
+		<h4 class="card-text">{{ card_object.definition }}</h4>
+		</p>
+		</div>
+	</div>
+	</div>
+
+	<br>
+	{% else %}
+	<p><b>No cards are in the {{card_set_object | upper }} card set.</b></p>
+	{% endif %}
+	
+	<!--Previous/Random/Next Card Buttons-->
+	<nav aria-label="...">
+	<ul class="pagination pagination-lg">
+
+		{% if card_object %}
+		<li class="page-item"><a class="page-link" 
+		href="{% url 'flashcards:view_card_set' card_set_object.id %}?card={{ card_object.get_previous_card.id }}">
+		Previous</a></li>
+
+		<li class="page-item"><a class="page-link"
+		href="{% url 'flashcards:view_card_set' card_set_object.id %}?card={{ card_set_object.get_random_card.id }}">
+		Random</a></li>
+
+		<li class="page-item"><a class="page-link" 
+		href="{% url 'flashcards:view_card_set' card_set_object.id %}?card={{ card_object.get_next_card.id }}">
+		Next</a></li>
+		{% endif %}
+	</ul>
+	</nav>
+	
+	
+	<nav aria-label="...">
+	<ul class="pagination pagination-lg">
+	<li class="page-item"><a class="page-link" 
+	href="{% url 'flashcards:edit_card_set' card_set_object.id %}"
+	role="button">Edit Deck</a><p>
+
+	{% if card_object %}
+	<li class="page-item"><a class="page-link" 
+	href="{% url 'flashcards:edit_card' card_object.id %}"  
+	role="button">Edit Card</a><p>
+	{% endif %}
+
+	<li class="page-item"><a class="page-link"  
+	href="{% url 'flashcards:create_card' card_set_object.id %}"  
+	role="button">Add Card</a><p>
+	</ul>
+	</nav>
+	</div>
+
+	<div class="col-sm-2 mr-2">
+		<p></p>
+	</div>
+
+	<div class="col-xl-4">
+		<h6>Sentences for - {{ card_object.word | upper }}</h6>
+
+		{% if card_object.sentences|length == 0 %}
+			<p>You have not written a sentence for {{ card_object.word }}.</p> 
+			<a class="btn btn-outline-warning" href="{% url 'flashcards:edit_card' card_object.id %}" role="button">
+			Write a Sentence</a>
+		{% else %}
+			<p>{{ card_object.sentences }}</p>
+			<a class="btn btn-outline-warning" href="{% url 'flashcards:edit_card' card_object.id %}" role="button">
+			Edit Sentence</a>
+		{% endif %}
+
+		<!--Still working on getting the sentence to properly save once edited
+
+		<form method="POST" nonvalidate>
+		{% csrf_token %}
+		
+		{% for field in form %}
+		{% if forloop.counter0 == 3 %}
+		<div class="form-group">
+			<h6>Sentences for - {{ card_object.word | upper }}</h6>
+			{% render_field field class="form-control" %}
+		</div>
+		{% endif %}
+		{% endfor %}
+	
+		<button type="submit" class="btn btn-primary btn-md">Save</button>
+		</form>
+
+		-->
+	</div>
+
+</div>
+</div>
+
+{% endblock %}

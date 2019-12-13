@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+{% block head %}
+{% if card_object %}
+    <title>Card: {{ card_object | upper }}</title>
+{% else %}
+    <title>New Card</title>
+{% endif %}
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="col-xl-6">
+        
+        {% if card_object %}
+            <h3>Card: {{ card_object | upper}}</h3>
+            <h6>Edit your card below</h6>
+        {% else %}
+            <h3>Add Card</h3>
+            <h6>Create a new card below</h6>     
+        {% endif %}
+        
+        <form method="POST" nonvalidate>
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {% render_field field class="form-control" %}
+            </div>
+            {% endfor %}
+            
+            <button class="btn btn-primary btn-md" type="submit">Save</button>
+
+            {% if edit_mode %}
+            <a class="btn btn-primary btn-md" 
+            href="{% url 'flashcards:delete_card' card_object.id %}" 
+            role="button">Delete {{ card_object | upper }}</a>
+            {% endif %}
+        </form>
+
+    </div>
+</div>
+{% endblock %}
