@@ -1,8 +1,5 @@
 *.pyc
-*~
-/.vscode
-__pycache__
-venv
+
+.vscode/
+static/
 db.sqlite3
-/static
-.DS_Store
