@@ -10,7 +10,7 @@
 
         {% block head %}
         <div class="container">
-            <title>3Forty.com</title>
+            <title>FlipIt</title>
         </div>
         {% endblock %}
 
@@ -21,9 +21,10 @@
     <body>
         
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="{% url 'index' %}">3Forty</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <a class="navbar-brand" href="{% url 'index' %}">FlipIt</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" 
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -38,13 +39,15 @@
                         <a class="nav-link" href="{% url 'admin:index' %}"><b>Admin Panel</b><span class="sr-only">(current)</span></a>
                     </li>    
                     {% endif %}
-                    
                 </ul>
-                
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+
+                <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'flashcards:dictionary' %}">
+                    <input class="form-control mr-sm-2" 
+                    name="word_searched" value="{{request.GET.word_searched}}" 
+                    placeholder="Vocabulary Dictionary" aria-label="Search">
                     <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-                </form>                   
+                </form>
+              
             </div>
         </nav>
     
@@ -53,7 +56,7 @@
     
     {% block body %}
     <div class="container">
-        <h1>3Forty.com</h1>
+        <h1>FlipIt</h1>
     </div>
     {% endblock %}
 

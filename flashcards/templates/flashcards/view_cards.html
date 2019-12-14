@@ -2,7 +2,7 @@
 {% load widget_tweaks %}
 
 {% block head %}
-<title>GRE Cards</title>
+<title>FlipIt | Flashcards</title>
 
 <head>
 <style>
@@ -143,27 +143,7 @@
 			Edit Sentence</a>
 		{% endif %}
 
-		<!--Still working on getting the sentence to properly save once edited
-
-		<form method="POST" nonvalidate>
-		{% csrf_token %}
-		
-		{% for field in form %}
-		{% if forloop.counter0 == 3 %}
-		<div class="form-group">
-			<h6>Sentences for - {{ card_object.word | upper }}</h6>
-			{% render_field field class="form-control" %}
-		</div>
-		{% endif %}
-		{% endfor %}
-	
-		<button type="submit" class="btn btn-primary btn-md">Save</button>
-		</form>
-
-		-->
 	</div>
-
 </div>
 </div>
-
 {% endblock %}

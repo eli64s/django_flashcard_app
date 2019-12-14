@@ -11,6 +11,5 @@ urlpatterns = [
     url(r'edit/(?P<card_set_id>[\d]+)', views.edit_card_set, name = 'edit_card_set'),
     url(r'edit_card/(?P<card_id>[\d]+)', views.edit_card, name = 'edit_card'), 
     url(r'view/(?P<card_set_id>[\d]+)', views.view_card_set, name = 'view_card_set'), 
-    
-    url(r'word_search/', views.word_search, name = 'word_search'), 
+    url(r'dictionary/', views.dictionary, name = 'dictionary'), 
 ]

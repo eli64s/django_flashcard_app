@@ -1,11 +1,10 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Flashcards</title>
+<title>FlipIt | Card Decks</title>
 {% endblock %}
 
 {% block body%}
-
 <div class="row">
 {% for t in topics %}
 {% cycle 'primary' 'warning' 'danger' 'secondary' 'success' 'info' 'dark' as color silent %}
@@ -51,51 +50,7 @@
             </p>
         </div>
     {% endif %}     
-
 {% endfor %}
-
-    
-<!--div-- class="col-md-4">
-    <h3>Card Sets</h3>
-    <h6>Select a topic to review</h6>
-    
-    {% if topics %}
-        {% for t in topics %}
-        <p>
-            <a class="btn btn-primary" href= "{% url 'flashcards:view_card_set' t.id %}"
-            style = "width:35%;white-space: nowrap;text-align: center;"
-            role="button">{{ t.topic }}</a>
-            - <a href="{% url 'flashcards:edit_card_set' t.id %}">Edit</a>
-        </p>
-        {% endfor %}
-    {% endif %}
-</!--div-->
-
-<!--div-- class="col-md-4 ">
-    <h3>Custom Card Set</h3>
-    <h6>Create a custom study set</h6>
-    <p>
-        <a class="btn btn-primary" href="{% url 'flashcards:create_card_set' %}"  
-        role="button">Create New</a>
-    </p>
-</!--div-->
-
-
-    <!--div-- class="col-md-4">
-        <h3>Custom Card Set</h3>
-        <h6>Create your custom study deck below!</h6>
-        <p>
-        <form method="post">
-            {% csrf_token %}
-            <input type="text" placeholder="Name Card Set" class="form-control" name="new_topic"><br>
-            <input type="text" placeholder="Card Set Description" class="form-control" name="new_description"><br>
-            Card Set Active: <input type='checkbox' name="form_is_active">
-            <button type="submit" class="btn btn-primary btn-sm">Submit</button>
-        </form>
-        </p>
-    </!--div-->
- 
-
 {% endblock %}
 
          

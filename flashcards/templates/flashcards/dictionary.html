@@ -1,13 +1,20 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Dictionary</title>
+<title>{{ word_searched }}</title>
 {% endblock %}
 
 {% block body%}
 
-
+<!-- Display user search in the center of the page, 
+     returning the searched word and its definition -->
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <p><b>{{ word_searched }}</b>: {{ word_def }}</p>
+    </div>
+</div>
 
 {% endblock %}
+
 
          

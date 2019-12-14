@@ -7,8 +7,9 @@ from django.shortcuts import (
 from django.urls import reverse
 from .models import Card_Set, Card
 from .forms import Card_Set_Form, Card_Form
+from PyDictionary import PyDictionary
 
-# Create your views here.
+# Views for the 'flashcards' app
 def flashcards(request):
     '''
     Renders the flashcard app's flashcards.html template
@@ -21,8 +22,7 @@ def flashcards(request):
 
 def create_card_set(request):
     '''
-    Renders a template used to create POST requests
-    to create a new card set
+    Renders a template used to create POST requests to create a new card set
     '''
     # Create the form instance and populate data from the request
     if request.method == 'POST':
@@ -41,8 +41,7 @@ def create_card_set(request):
 
 def create_card(request, card_set_id):
     '''
-    View to create a new card in the given
-    card set id
+    View to create a new card in the given card set id
     '''
     # get_object_or_404() displays '404 error' if it fails to get object 
     card_set_object = get_object_or_404(Card_Set, id = card_set_id)
@@ -81,8 +80,7 @@ def delete_card_set(request, card_set_id):
 
 def edit_card(request, card_id):
     '''
-    View that renders a form to edit the card
-    object's information
+    View that renders a form to edit the card object's information
     '''
     card_object = get_object_or_404(Card, id = card_id)
 
@@ -102,8 +100,7 @@ def edit_card(request, card_id):
 
 def edit_card_set(request, card_set_id):
 	'''
-	View that renders a form to edit the card set
-    object's information
+	View that renders a form to edit the card set object's information
     '''
 
 	card_set_object = get_object_or_404(Card_Set, id = card_set_id)
@@ -125,7 +122,7 @@ def edit_card_set(request, card_set_id):
 def view_card_set(request, card_set_id):
     '''
     View to get card set from the database -
-    returns the first card in card set -
+    returns the first card in card set - 
     unless a card_id is defined in the url
     '''
     card_set_object = get_object_or_404(Card_Set, id = card_set_id)
@@ -139,25 +136,24 @@ def view_card_set(request, card_set_id):
     context = {'card_set_object': card_set_object, 'card_object': card_object}
     return render(request, 'flashcards/view_cards.html', context)
 
-from PyDictionary import PyDictionary
-def word_search(request):
+
+def dictionary(request):
     '''
     View for the 'search bar' in the
     navbar - a page is rendered that 
-    displays that words definition using
-    the module PyDictionary
+    displays the searched word and its
+    definition using PyDictionary
     '''
-    pass
-'''
-    if request.method == 'GET':
-        word_searched = request.GET.get('word_searched')
-        dictionary = PyDictionary()
-        word_def = dictionary.meaning(word_searched) # Get definition of word searched
-        word_def = list(word_def.values())[0][0]     # Extract definition as a string
 
-        context = {'word_searched': word_searched, 'word_def': word_def}
-        return render(request, 'flashcards/dictionary.html', context)
+    try:
+        if request.method == 'GET':
+            word_searched = request.GET.get('word_searched')
+            dictionary = PyDictionary()                  # PyDictionary module 
+            word_def = dictionary.meaning(word_searched) # Get definition of word searched
+            word_def = list(word_def.values())[0][0]     # Extract definition as a string
+        
+    except:
+        word_def = 'This word does not exist in the database'
 
-    else:
-        return render(request, 'flashcards/dictionary.html', context)
-'''
+    context = {'word_searched': word_searched, 'word_def': word_def}
+    return render(request, 'flashcards/dictionary.html', context)
