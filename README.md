@@ -22,4 +22,5 @@ Highlights of Project:
  
  4) Search feature to look up vocabulary words's definition
     - The searched words do not use the data from the database, but instead the PyDictionary module
+    
  Enjoy and feel free to ask questions and give feedback!
