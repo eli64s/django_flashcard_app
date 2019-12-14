@@ -11,13 +11,13 @@ Highlights of Project:
   
   2) A page for selecting the deck of cards to study 
   
-  ![DeckPageImage](https://raw.githubusercontent.com/eli64s/Django-Flashcard-Web-App/master/flashcard_decks.PNG)
+  ![DeckPageImage](https://raw.githubusercontent.com/eli64s/Django-Flashcard-Web-App/master/[IMAGES]flashcard_decks.PNG)
     
   3) A page for viewing the flashcards with features including:
      - Hover to flip the card
      - Next/Previous/Random buttons to navigate the deck 
      - Option to write vocabulary word in a sentence 
      
- ![FlashcardPageImage](https://raw.githubusercontent.com/eli64s/Django-Flashcard-Web-App/master/flashcard.PNG)
+ ![FlashcardPageImage](https://raw.githubusercontent.com/eli64s/Django-Flashcard-Web-App/master/[IMAGES]flashcard.PNG)
  
  Enjoy and feel free to ask questions and give feedback!
