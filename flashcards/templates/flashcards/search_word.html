@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Dictionary</title>
+{% endblock %}
+
+{% block body%}
+
+<form method="GET" action="{ url 'flashcards:word_search' }">
+    <input name="word_searched" value="{{request.GET.word_searched}}" placeholder="Search a Word!">
+    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+</form>
+
+{% endblock %}
+
+         

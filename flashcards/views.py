@@ -11,11 +11,11 @@ from .forms import Card_Set_Form, Card_Form
 # Create your views here.
 def flashcards(request):
     '''
-    Renders the flashcards app flashcards.html template
+    Renders the flashcard app's flashcards.html template
     '''
-    # This returns all cards in the database
+    # Card_Set.objects.all() returns all cards in the database
     topic_query_set = Card_Set.objects.all().order_by('topic').filter(is_active = True) 
-    context = {'topics': topic_query_set}   # Dictionary passed that will be rendered for flashcards/home.html
+    context = {'topics': topic_query_set}   # Dictionary{} rendered for flashcards/flashcards.html
     return render(request, 'flashcards/flashcards.html', context)
 
 
@@ -24,13 +24,13 @@ def create_card_set(request):
     Renders a template used to create POST requests
     to create a new card set
     '''
-    # Create the form instance, and populate data from the request
+    # Create the form instance and populate data from the request
     if request.method == 'POST':
         form = Card_Set_Form(request.POST)
 
-        if form.is_valid():                                # Check if the form is valid
-            form.save()                                    #Save the form, saves the object to the database
-            return HttpResponseRedirect(reverse('flashcards:flashcards'))   
+        if form.is_valid():                                               # Check if form is valid
+            form.save()                                                   # Save form - object saved to database                                                                          
+            return HttpResponseRedirect(reverse('flashcards:flashcards')) # Redirect to the flashcards view
 
     else:
         form = Card_Set_Form()
@@ -41,16 +41,18 @@ def create_card_set(request):
 
 def create_card(request, card_set_id):
     '''
-    Used to create a new card for the given card set id
+    View to create a new card in the given
+    card set id
     '''
+    # get_object_or_404() displays '404 error' if it fails to get object 
     card_set_object = get_object_or_404(Card_Set, id = card_set_id)
 
     if request.method == 'POST':
         form = Card_Form(request.POST)
 
-        if form.is_valid():                                                 # Check if the form is valid
-            form.save()                                                     # Save the form, saves the object to the database
-            return HttpResponseRedirect(reverse('flashcards:flashcards'))   # Redirect user back to the flashcards view card set page         
+        if form.is_valid():                                                 
+            form.save()                                                     
+            return HttpResponseRedirect(reverse('flashcards:flashcards'))            
 
     else:
         form = Card_Form(initial = {'parent_card_set': card_set_object})
@@ -61,7 +63,7 @@ def create_card(request, card_set_id):
 
 def delete_card(request, card_id):
     '''
-    Deletes the cards whose id == card_id
+    Deletes card whose id == card_id
     '''
     card_object = get_object_or_404(Card, id = card_id)
     card_object.delete()
@@ -70,7 +72,7 @@ def delete_card(request, card_id):
 
 def delete_card_set(request, card_set_id):
 	'''
-	Deletes the card set whose id == card_set_id
+	Deletes card set whose id == card_set_id
 	'''
 	card_set_object = get_object_or_404(Card_Set, id = card_set_id)
 	card_set_object.delete()										
@@ -79,12 +81,14 @@ def delete_card_set(request, card_set_id):
 
 def edit_card(request, card_id):
     '''
-    Renders the form to edit information on the card
+    View that renders a form to edit the card
+    object's information
     '''
     card_object = get_object_or_404(Card, id = card_id)
 
     if request.method == 'POST':
         form = Card_Form(request.POST, instance = card_object)
+
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('flashcards:flashcards'))     
@@ -98,18 +102,17 @@ def edit_card(request, card_id):
 
 def edit_card_set(request, card_set_id):
 	'''
-	Renders the form to edit infomration about the card set object
-	'''
+	View that renders a form to edit the card set
+    object's information
+    '''
 
-	# If this statement does not get the object, it displays a 404 error
 	card_set_object = get_object_or_404(Card_Set, id = card_set_id)
 
-    # Create the form instance, and populate data from the request
 	if request.method == 'POST':
 		form = Card_Set_Form(request.POST, instance = card_set_object)
 
-		if form.is_valid():                 # Check if the form is valid
-			form.save()                     # Save the form, saves the object to the database
+		if form.is_valid():                 
+			form.save()                     
 		return HttpResponseRedirect(reverse('flashcards:flashcards'))     
 
 	else:
@@ -121,29 +124,40 @@ def edit_card_set(request, card_set_id):
 
 def view_card_set(request, card_set_id):
     '''
-    Get card set from the database,
-    returns first card in card set unless card_id is specified in the url
+    View to get card set from the database -
+    returns the first card in card set -
+    unless a card_id is defined in the url
     '''
     card_set_object = get_object_or_404(Card_Set, id = card_set_id)
-    card_list = card_set_object.card_set.all()		# Returns all cards in respective card set
-    card_object = card_list.first()			        # Returns the first card in the set
+    card_list = card_set_object.card_set.all()	# Returns all cards in respective card set
+    card_object = card_list.first()			    # Returns the first card in the set
 
-    # Functionality to get the next/previous card in set
+    # Condition to get the next/previous card in the set
     if request.method == 'GET' and 'card' in request.GET:
         card_object = get_object_or_404(Card, id = request.GET['card'])
-
-    '''
-    # Form for writing the vocabulary word in a sentence
-    if request.method == 'POST':
-        form = Card_Form(request.POST, instance = card_object)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('flashcards:flashcards')) 
-
-    else:
-        form = Card_Form(instance = card_object)
-    '''
 
     context = {'card_set_object': card_set_object, 'card_object': card_object}
     return render(request, 'flashcards/view_cards.html', context)
 
+from PyDictionary import PyDictionary
+def word_search(request):
+    '''
+    View for the 'search bar' in the
+    navbar - a page is rendered that 
+    displays that words definition using
+    the module PyDictionary
+    '''
+    pass
+'''
+    if request.method == 'GET':
+        word_searched = request.GET.get('word_searched')
+        dictionary = PyDictionary()
+        word_def = dictionary.meaning(word_searched) # Get definition of word searched
+        word_def = list(word_def.values())[0][0]     # Extract definition as a string
+
+        context = {'word_searched': word_searched, 'word_def': word_def}
+        return render(request, 'flashcards/dictionary.html', context)
+
+    else:
+        return render(request, 'flashcards/dictionary.html', context)
+'''

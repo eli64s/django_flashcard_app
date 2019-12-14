@@ -1,4 +1,4 @@
-# gre views 
+# flashcard_project views 
 from django.shortcuts import HttpResponseRedirect, render
 
 def index(request):
