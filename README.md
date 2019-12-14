@@ -18,6 +18,6 @@ Highlights of Project:
      - Next/Previous/Random buttons to navigate the deck 
      - Option to write vocabulary word in a sentence 
      
- ![FlashcardPageImage](https://raw.githubusercontent.com/eli64s/Django-Flashcard-Web-App/master/flashcards.PNG)
+ ![FlashcardPageImage](https://raw.githubusercontent.com/eli64s/Django-Flashcard-Web-App/master/flashcard.PNG)
  
  Enjoy and feel free to ask questions and give feedback!
